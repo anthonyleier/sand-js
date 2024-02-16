@@ -1,8 +1,7 @@
 class Matrix {
-    constructor(lines, columns, blockSize) {
+    constructor(lines, columns) {
         this.lines = lines;
         this.columns = columns;
-        this.blockSize = blockSize;
         this.grid = this.create(lines, columns);
     }
 
@@ -46,18 +45,6 @@ class Matrix {
         }
         this.grid = newGrid;
     }
-
-    draw(canvas, context) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < this.lines; i++) {
-            for (let j = 0; j < this.columns; j++) {
-                if (this.grid[i][j] > 0) {
-                    context.fillStyle = "#C2A653";
-                    context.fillRect(j * this.blockSize, i * this.blockSize, this.blockSize, this.blockSize);
-                }
-            }
-        }
-    }
 }
 
 class Game {
@@ -73,11 +60,12 @@ class Game {
 
         this.blockSize = blockSize;
         this.leftMousePressed = false;
+        this.generateColor();
     }
 
     loop() {
         this.matrix.update();
-        this.matrix.draw(this.canvas, this.context);
+        this.drawMatrix();
         requestAnimationFrame(() => this.loop());
     }
 
@@ -98,6 +86,17 @@ class Game {
         });
     }
 
+    generateRNG(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    generateColor() {
+        let hue = 45;
+        let saturation = this.generateRNG(50, 100);
+        let brightness = this.generateRNG(30, 70);
+        let hslColor = `hsl(${hue}, ${saturation}%, ${brightness}%)`;
+        return hslColor;
+    }
+
     generateSand(event) {
         let mouseX = Math.floor((event.clientX - this.canvas.getBoundingClientRect().left) / this.blockSize);
         let mouseY = Math.floor((event.clientY - this.canvas.getBoundingClientRect().top) / this.blockSize);
@@ -111,6 +110,18 @@ class Game {
                     let line = mouseY + j;
                     let column = mouseX + i;
                     this.matrix.grid[line][column] = 1;
+                }
+            }
+        }
+    }
+
+    drawMatrix() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        for (let i = 0; i < this.matrix.lines; i++) {
+            for (let j = 0; j < this.matrix.columns; j++) {
+                if (this.matrix.grid[i][j] > 0) {
+                    this.context.fillStyle = this.generateColor();
+                    this.context.fillRect(j * this.blockSize, i * this.blockSize, this.blockSize, this.blockSize);
                 }
             }
         }
