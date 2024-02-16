@@ -1,110 +1,121 @@
-function copiarMatriz(matriz) {
-    return matriz.map((row) => row.slice());
-}
-
-function criarMatriz(linhas, colunas) {
-    let matriz = [];
-    for (let i = 0; i < linhas; i++) {
-        matriz[i] = [];
-        for (let j = 0; j < colunas; j++) {
-            matriz[i][j] = 0;
-        }
+class Matrix {
+    constructor(lines, columns, blockSize) {
+        this.lines = lines;
+        this.columns = columns;
+        this.blockSize = blockSize;
+        this.grid = this.create(lines, columns);
     }
-    return matriz;
-}
 
-function updateMatriz(matriz) {
-    let novaMatriz = copiarMatriz(matriz);
-    for (i = 0; i < linhasMatriz; i++) {
-        for (j = 0; j < colunasMatriz; j++) {
-            if (matriz[i][j] > 0) {
-                if (i + 1 < linhasMatriz) {
-                    let embaixo = matriz[i + 1][j];
-                    let embaixoEsquerda = matriz[i + 1][j - 1];
-                    let embaixoDireita = matriz[i + 1][j + 1];
-                    if (embaixo === 0) {
-                        novaMatriz[i][j] = 0;
-                        novaMatriz[i + 1][j] = matriz[i][j];
-                    } else if (embaixoEsquerda === 0) {
-                        novaMatriz[i][j] = 0;
-                        novaMatriz[i + 1][j - 1] = matriz[i][j];
-                    } else if (embaixoDireita === 0) {
-                        novaMatriz[i][j] = 0;
-                        novaMatriz[i + 1][j + 1] = matriz[i][j];
+    create() {
+        let grid = [];
+        for (let i = 0; i < this.lines; i++) {
+            grid[i] = [];
+            for (let j = 0; j < this.columns; j++) {
+                grid[i][j] = 0;
+            }
+        }
+        return grid;
+    }
+
+    copy() {
+        return this.grid.map((row) => row.slice());
+    }
+
+    update() {
+        let newGrid = this.copy();
+        for (let i = 0; i < this.lines; i++) {
+            for (let j = 0; j < this.columns; j++) {
+                if (this.grid[i][j] > 0) {
+                    if (i + 1 < this.lines) {
+                        let below = this.grid[i + 1][j];
+                        let belowLeft = this.grid[i + 1][j - 1];
+                        let belowRight = this.grid[i + 1][j + 1];
+                        if (below === 0) {
+                            newGrid[i][j] = 0;
+                            newGrid[i + 1][j] = this.grid[i][j];
+                        } else if (belowLeft === 0) {
+                            newGrid[i][j] = 0;
+                            newGrid[i + 1][j - 1] = this.grid[i][j];
+                        } else if (belowRight === 0) {
+                            newGrid[i][j] = 0;
+                            newGrid[i + 1][j + 1] = this.grid[i][j];
+                        }
                     }
                 }
             }
         }
+        this.grid = newGrid;
     }
-    return novaMatriz;
-}
 
-function drawMatriz(matriz) {
-    contexto.clearRect(0, 0, canvas.width, canvas.height);
-
-    for (i = 0; i < linhasMatriz; i++) {
-        for (j = 0; j < colunasMatriz; j++) {
-            if (matriz[i][j] > 0) {
-                contexto.fillStyle = "#C2A653";
-                contexto.fillRect(j * tamanho, i * tamanho, tamanho, tamanho);
+    draw(canvas, context) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < this.lines; i++) {
+            for (let j = 0; j < this.columns; j++) {
+                if (this.grid[i][j] > 0) {
+                    context.fillStyle = "#C2A653";
+                    context.fillRect(j * this.blockSize, i * this.blockSize, this.blockSize, this.blockSize);
+                }
             }
         }
     }
 }
 
-function gerarAreia(evento) {
-    let mouseX = Math.floor((evento.clientX - canvas.getBoundingClientRect().left) / tamanho);
-    let mouseY = Math.floor((evento.clientY - canvas.getBoundingClientRect().top) / tamanho);
+function generateSand(event, matrix) {
+    let mouseX = Math.floor((event.clientX - canvas.getBoundingClientRect().left) / blockSize);
+    let mouseY = Math.floor((event.clientY - canvas.getBoundingClientRect().top) / blockSize);
 
     let brush = 3;
-    let limite = Math.floor(brush / 2);
-    for (let i = -limite; i <= limite; i++) {
-        for (let j = -limite; j <= limite; j++) {
+    let limit = Math.floor(brush / 2);
+
+    for (let i = -limit; i <= limit; i++) {
+        for (let j = -limit; j <= limit; j++) {
             if (Math.random() < 0.75) {
-                let coluna = mouseX + i;
-                let linha = mouseY + j;
-                matriz[linha][coluna] = 1;
+                let line = mouseY + j;
+                let column = mouseX + i;
+                matrix.grid[line][column] = 1;
             }
         }
     }
 }
 
 function loop() {
-    matriz = updateMatriz(matriz);
-    drawMatriz(matriz);
-    setTimeout(loop, FRAME);
+    matrix.update();
+    matrix.draw(canvas, context);
+    setTimeout(loop, frame);
 }
 
-const larguraCanvas = 400;
-const alturaCanvas = 500;
-const tamanho = 10;
+const canvasWidth = 500;
+const canvasHeight = 500;
+const blockSize = 5;
 
 let canvas = document.getElementById("GameCanvas");
-let contexto = canvas.getContext("2d");
-canvas.width = larguraCanvas;
-canvas.height = alturaCanvas;
+let context = canvas.getContext("2d");
 
-const linhasMatriz = alturaCanvas / tamanho;
-const colunasMatriz = larguraCanvas / tamanho;
+canvas.width = canvasWidth;
+canvas.height = canvasHeight;
 
-let matriz = criarMatriz(linhasMatriz, colunasMatriz);
-let mousePressionado = false;
+const lines = canvasHeight / blockSize;
+const columns = canvasWidth / blockSize;
 
-var FRAME = 1000 / 60;
+let matrix = new Matrix(lines, columns, blockSize);
 
-canvas.addEventListener("mousedown", (evento) => {
-    mousePressionado = true;
-    gerarAreia(evento);
+let leftMousePressed = false;
+
+var frame = 1000 / 60;
+
+canvas.addEventListener("mousedown", (event) => {
+    leftMousePressed = true;
+    generateSand(event, matrix);
 });
 
 canvas.addEventListener("mouseup", () => {
-    mousePressionado = false;
+    leftMousePressed = false;
 });
 
-canvas.addEventListener("mousemove", (evento) => {
-    if (mousePressionado) {
-        gerarAreia(evento);
+canvas.addEventListener("mousemove", (event) => {
+    if (leftMousePressed) {
+        generateSand(event, matrix);
     }
 });
 
-setTimeout(loop, FRAME);
+setTimeout(loop, frame);
