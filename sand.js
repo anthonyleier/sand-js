@@ -60,62 +60,76 @@ class Matrix {
     }
 }
 
-function generateSand(event, matrix) {
-    let mouseX = Math.floor((event.clientX - canvas.getBoundingClientRect().left) / blockSize);
-    let mouseY = Math.floor((event.clientY - canvas.getBoundingClientRect().top) / blockSize);
+class Game {
+    constructor(width, height, matrix, blockSize, frame) {
+        this.canvas = document.getElementById("GameCanvas");
+        this.context = this.canvas.getContext("2d");
 
-    let brush = 3;
-    let limit = Math.floor(brush / 2);
+        this.canvas.width = width;
+        this.canvas.height = height;
 
-    for (let i = -limit; i <= limit; i++) {
-        for (let j = -limit; j <= limit; j++) {
-            if (Math.random() < 0.75) {
-                let line = mouseY + j;
-                let column = mouseX + i;
-                matrix.grid[line][column] = 1;
+        this.matrix = matrix;
+        this.frame = frame;
+
+        this.blockSize = blockSize;
+        this.leftMousePressed = false;
+    }
+
+    loop() {
+        this.matrix.update();
+        this.matrix.draw(this.canvas, this.context);
+        setTimeout(() => this.loop(), this.frame);
+    }
+
+    addListeners() {
+        this.canvas.addEventListener("mousedown", (event) => {
+            this.leftMousePressed = true;
+            this.generateSand(event);
+        });
+
+        this.canvas.addEventListener("mouseup", () => {
+            this.leftMousePressed = false;
+        });
+
+        this.canvas.addEventListener("mousemove", (event) => {
+            if (this.leftMousePressed) {
+                this.generateSand(event);
+            }
+        });
+    }
+
+    generateSand(event) {
+        let mouseX = Math.floor((event.clientX - this.canvas.getBoundingClientRect().left) / this.blockSize);
+        let mouseY = Math.floor((event.clientY - this.canvas.getBoundingClientRect().top) / this.blockSize);
+
+        let brush = 3;
+        let limit = Math.floor(brush / 2);
+
+        for (let i = -limit; i <= limit; i++) {
+            for (let j = -limit; j <= limit; j++) {
+                if (Math.random() < 0.75) {
+                    let line = mouseY + j;
+                    let column = mouseX + i;
+                    this.matrix.grid[line][column] = 1;
+                }
             }
         }
     }
 }
 
-function loop() {
-    matrix.update();
-    matrix.draw(canvas, context);
-    setTimeout(loop, frame);
+function main() {
+    const width = 500;
+    const height = 500;
+    const blockSize = 5;
+    const frame = 1000 / 60;
+
+    const lines = height / blockSize;
+    const columns = width / blockSize;
+
+    let matrix = new Matrix(lines, columns, blockSize);
+    let game = new Game(width, height, matrix, blockSize, frame);
+    game.addListeners();
+    game.loop();
 }
 
-const canvasWidth = 500;
-const canvasHeight = 500;
-const blockSize = 5;
-
-let canvas = document.getElementById("GameCanvas");
-let context = canvas.getContext("2d");
-
-canvas.width = canvasWidth;
-canvas.height = canvasHeight;
-
-const lines = canvasHeight / blockSize;
-const columns = canvasWidth / blockSize;
-
-let matrix = new Matrix(lines, columns, blockSize);
-
-let leftMousePressed = false;
-
-var frame = 1000 / 60;
-
-canvas.addEventListener("mousedown", (event) => {
-    leftMousePressed = true;
-    generateSand(event, matrix);
-});
-
-canvas.addEventListener("mouseup", () => {
-    leftMousePressed = false;
-});
-
-canvas.addEventListener("mousemove", (event) => {
-    if (leftMousePressed) {
-        generateSand(event, matrix);
-    }
-});
-
-setTimeout(loop, frame);
+main();
