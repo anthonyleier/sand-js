@@ -14,15 +14,23 @@ function criarMatriz(linhas, colunas) {
 }
 
 function updateMatriz(matriz) {
-    let novaMatriz = copiarMatriz(matriz);
+    let novaMatriz = copiarMatriz(matriz); // Ao invés de copiar, criar uma nova
     for (i = 0; i < linhasMatriz; i++) {
         for (j = 0; j < colunasMatriz; j++) {
             if (matriz[i][j] > 0) {
                 if (i + 1 < linhasMatriz) {
                     let embaixo = matriz[i + 1][j];
+                    let embaixoEsquerda = matriz[i + 1][j - 1];
+                    let embaixoDireita = matriz[i + 1][j + 1];
                     if (embaixo === 0) {
                         novaMatriz[i][j] = 0;
                         novaMatriz[i + 1][j] = matriz[i][j];
+                    } else if (embaixoEsquerda === 0) {
+                        novaMatriz[i][j] = 0;
+                        novaMatriz[i + 1][j - 1] = matriz[i][j];
+                    } else if (embaixoDireita === 0) {
+                        novaMatriz[i][j] = 0;
+                        novaMatriz[i + 1][j + 1] = matriz[i][j];
                     }
                 }
             }
