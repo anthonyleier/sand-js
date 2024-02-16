@@ -1,3 +1,5 @@
+import Sand from "./Sand.js";
+
 export default class Game {
     constructor(width, height, matrix, blockSize, frame) {
         this.canvas = document.getElementById("GameCanvas");
@@ -11,7 +13,6 @@ export default class Game {
 
         this.blockSize = blockSize;
         this.leftMousePressed = false;
-        this.generateColor();
     }
 
     loop() {
@@ -37,17 +38,6 @@ export default class Game {
         });
     }
 
-    generateRNG(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-    generateColor() {
-        let hue = 45;
-        let saturation = this.generateRNG(50, 70);
-        let brightness = this.generateRNG(50, 60);
-        let hslColor = `hsl(${hue}, ${saturation}%, ${brightness}%)`;
-        return hslColor;
-    }
-
     generateSand(event) {
         let mouseX = Math.floor((event.clientX - this.canvas.getBoundingClientRect().left) / this.blockSize);
         let mouseY = Math.floor((event.clientY - this.canvas.getBoundingClientRect().top) / this.blockSize);
@@ -60,7 +50,7 @@ export default class Game {
                 if (Math.random() < 0.75) {
                     let line = mouseY + j;
                     let column = mouseX + i;
-                    this.matrix.grid[line][column] = this.generateColor();
+                    this.matrix.grid[line][column] = new Sand();
                 }
             }
         }
@@ -70,8 +60,8 @@ export default class Game {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         for (let i = 0; i < this.matrix.lines; i++) {
             for (let j = 0; j < this.matrix.columns; j++) {
-                if (this.matrix.grid[i][j] != 0) {
-                    this.context.fillStyle = this.matrix.grid[i][j];
+                if (this.matrix.grid[i][j] !== null) {
+                    this.context.fillStyle = this.matrix.grid[i][j].color;
                     this.context.fillRect(j * this.blockSize, i * this.blockSize, this.blockSize, this.blockSize);
                 }
             }

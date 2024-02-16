@@ -10,7 +10,7 @@ export default class Matrix {
         for (let i = 0; i < this.lines; i++) {
             grid[i] = [];
             for (let j = 0; j < this.columns; j++) {
-                grid[i][j] = 0;
+                grid[i][j] = null;
             }
         }
         return grid;
@@ -24,7 +24,7 @@ export default class Matrix {
         let newGrid = this.copy();
         for (let i = 0; i < this.lines; i++) {
             for (let j = 0; j < this.columns; j++) {
-                if (this.grid[i][j] != 0) {
+                if (this.grid[i][j] !== null) {
                     if (i + 1 < this.lines) {
                         let direction = 1;
                         if (Math.random() < 0.5) {
@@ -35,14 +35,14 @@ export default class Matrix {
                         let belowA = this.grid[i + 1][j - direction];
                         let belowB = this.grid[i + 1][j + direction];
 
-                        if (below === 0) {
-                            newGrid[i][j] = 0;
+                        if (below === null) {
+                            newGrid[i][j] = below;
                             newGrid[i + 1][j] = this.grid[i][j];
-                        } else if (belowA === 0) {
-                            newGrid[i][j] = 0;
+                        } else if (belowA === null) {
+                            newGrid[i][j] = belowA;
                             newGrid[i + 1][j - 1] = this.grid[i][j];
-                        } else if (belowB === 0) {
-                            newGrid[i][j] = 0;
+                        } else if (belowB === null) {
+                            newGrid[i][j] = belowB;
                             newGrid[i + 1][j + 1] = this.grid[i][j];
                         }
                     }
