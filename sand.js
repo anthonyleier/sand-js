@@ -78,7 +78,7 @@ class Game {
     loop() {
         this.matrix.update();
         this.matrix.draw(this.canvas, this.context);
-        setTimeout(() => this.loop(), this.frame);
+        requestAnimationFrame(() => this.loop());
     }
 
     addListeners() {
