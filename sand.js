@@ -26,16 +26,22 @@ class Matrix {
             for (let j = 0; j < this.columns; j++) {
                 if (this.grid[i][j] != 0) {
                     if (i + 1 < this.lines) {
+                        let direction = 1;
+                        if (Math.random() < 0.5) {
+                            direction *= 1;
+                        }
+
                         let below = this.grid[i + 1][j];
-                        let belowLeft = this.grid[i + 1][j - 1];
-                        let belowRight = this.grid[i + 1][j + 1];
+                        let belowA = this.grid[i + 1][j - direction];
+                        let belowB = this.grid[i + 1][j + direction];
+
                         if (below === 0) {
                             newGrid[i][j] = 0;
                             newGrid[i + 1][j] = this.grid[i][j];
-                        } else if (belowLeft === 0) {
+                        } else if (belowA === 0) {
                             newGrid[i][j] = 0;
                             newGrid[i + 1][j - 1] = this.grid[i][j];
-                        } else if (belowRight === 0) {
+                        } else if (belowB === 0) {
                             newGrid[i][j] = 0;
                             newGrid[i + 1][j + 1] = this.grid[i][j];
                         }
