@@ -14,7 +14,7 @@ function criarMatriz(linhas, colunas) {
 }
 
 function updateMatriz(matriz) {
-    let novaMatriz = copiarMatriz(matriz); // Ao invés de copiar, criar uma nova
+    let novaMatriz = copiarMatriz(matriz);
     for (i = 0; i < linhasMatriz; i++) {
         for (j = 0; j < colunasMatriz; j++) {
             if (matriz[i][j] > 0) {
@@ -52,6 +52,18 @@ function drawMatriz(matriz) {
     }
 }
 
+function gerarAreia(evento) {
+    let x = Math.floor((evento.clientX - canvas.getBoundingClientRect().left) / tamanho);
+    let y = Math.floor((evento.clientY - canvas.getBoundingClientRect().top) / tamanho);
+    matriz[y][x] = 1;
+}
+
+function loop() {
+    matriz = updateMatriz(matriz);
+    drawMatriz(matriz);
+    setTimeout(loop, FRAME);
+}
+
 const larguraCanvas = 400;
 const alturaCanvas = 500;
 const tamanho = 10;
@@ -65,25 +77,23 @@ const linhasMatriz = alturaCanvas / tamanho;
 const colunasMatriz = larguraCanvas / tamanho;
 
 let matriz = criarMatriz(linhasMatriz, colunasMatriz);
-
-canvas.addEventListener("click", (evento) => {
-    let x = Math.floor((evento.clientX - canvas.getBoundingClientRect().left) / tamanho);
-    let y = Math.floor((evento.clientY - canvas.getBoundingClientRect().top) / tamanho);
-    matriz[y][x] = 1;
-});
-
-function update() {
-    matriz = updateMatriz(matriz);
-}
-
-function draw() {
-    drawMatriz(matriz);
-}
+let mousePressionado = false;
 
 var FRAME = 1000 / 60;
-var loop = function () {
-    update();
-    draw();
-    setTimeout(loop, FRAME);
-};
+
+canvas.addEventListener("mousedown", (evento) => {
+    mousePressionado = true;
+    gerarAreia(evento);
+});
+
+canvas.addEventListener("mouseup", () => {
+    mousePressionado = false;
+});
+
+canvas.addEventListener("mousemove", (evento) => {
+    if (mousePressionado) {
+        gerarAreia(evento);
+    }
+});
+
 setTimeout(loop, FRAME);
