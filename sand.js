@@ -53,9 +53,20 @@ function drawMatriz(matriz) {
 }
 
 function gerarAreia(evento) {
-    let x = Math.floor((evento.clientX - canvas.getBoundingClientRect().left) / tamanho);
-    let y = Math.floor((evento.clientY - canvas.getBoundingClientRect().top) / tamanho);
-    matriz[y][x] = 1;
+    let mouseX = Math.floor((evento.clientX - canvas.getBoundingClientRect().left) / tamanho);
+    let mouseY = Math.floor((evento.clientY - canvas.getBoundingClientRect().top) / tamanho);
+
+    let brush = 3;
+    let limite = Math.floor(brush / 2);
+    for (let i = -limite; i <= limite; i++) {
+        for (let j = -limite; j <= limite; j++) {
+            if (Math.random() < 0.75) {
+                let coluna = mouseX + i;
+                let linha = mouseY + j;
+                matriz[linha][coluna] = 1;
+            }
+        }
+    }
 }
 
 function loop() {
