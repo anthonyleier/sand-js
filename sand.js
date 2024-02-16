@@ -2,11 +2,11 @@ function copiarMatriz(matriz) {
     return matriz.map((row) => row.slice());
 }
 
-function criarMatriz(altura, largura) {
+function criarMatriz(linhas, colunas) {
     let matriz = [];
-    for (let i = 0; i < altura; i++) {
+    for (let i = 0; i < linhas; i++) {
         matriz[i] = [];
-        for (let j = 0; j < largura; j++) {
+        for (let j = 0; j < colunas; j++) {
             matriz[i][j] = 0;
         }
     }
@@ -15,10 +15,10 @@ function criarMatriz(altura, largura) {
 
 function updateMatriz(matriz) {
     let novaMatriz = copiarMatriz(matriz);
-    for (i = 0; i < alturaMatriz; i++) {
-        for (j = 0; j < larguraMatriz; j++) {
+    for (i = 0; i < linhasMatriz; i++) {
+        for (j = 0; j < colunasMatriz; j++) {
             if (matriz[i][j] > 0) {
-                if (i + 1 < alturaMatriz) {
+                if (i + 1 < linhasMatriz) {
                     let embaixo = matriz[i + 1][j];
                     if (embaixo === 0) {
                         novaMatriz[i][j] = 0;
@@ -34,8 +34,8 @@ function updateMatriz(matriz) {
 function drawMatriz(matriz) {
     contexto.clearRect(0, 0, canvas.width, canvas.height);
 
-    for (i = 0; i < alturaMatriz; i++) {
-        for (j = 0; j < larguraMatriz; j++) {
+    for (i = 0; i < linhasMatriz; i++) {
+        for (j = 0; j < colunasMatriz; j++) {
             if (matriz[i][j] > 0) {
                 contexto.fillStyle = "#C2A653";
                 contexto.fillRect(j * tamanho, i * tamanho, tamanho, tamanho);
@@ -45,7 +45,7 @@ function drawMatriz(matriz) {
 }
 
 const larguraCanvas = 400;
-const alturaCanvas = 400;
+const alturaCanvas = 500;
 const tamanho = 10;
 
 let canvas = document.getElementById("GameCanvas");
@@ -53,10 +53,10 @@ let contexto = canvas.getContext("2d");
 canvas.width = larguraCanvas;
 canvas.height = alturaCanvas;
 
-const larguraMatriz = larguraCanvas / tamanho;
-const alturaMatriz = alturaCanvas / tamanho;
+const linhasMatriz = alturaCanvas / tamanho;
+const colunasMatriz = larguraCanvas / tamanho;
 
-let matriz = criarMatriz(alturaMatriz, larguraMatriz);
+let matriz = criarMatriz(linhasMatriz, colunasMatriz);
 
 canvas.addEventListener("click", (evento) => {
     let x = Math.floor((evento.clientX - canvas.getBoundingClientRect().left) / tamanho);
