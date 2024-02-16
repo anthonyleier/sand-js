@@ -1,3 +1,5 @@
+import Sand from "./Sand.js";
+
 export default class Matrix {
     constructor(lines, columns) {
         this.lines = lines;
@@ -24,7 +26,7 @@ export default class Matrix {
         let newGrid = this.copy();
         for (let i = 0; i < this.lines; i++) {
             for (let j = 0; j < this.columns; j++) {
-                if (this.grid[i][j] !== null) {
+                if (this.grid[i][j] instanceof Sand) {
                     if (i + 1 < this.lines) {
                         let direction = 1;
                         if (Math.random() < 0.5) {

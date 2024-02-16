@@ -1,4 +1,5 @@
 import Sand from "./Sand.js";
+import Wood from "./Wood.js";
 
 export default class Game {
     constructor(width, height, matrix, blockSize, frame) {
@@ -13,6 +14,8 @@ export default class Game {
 
         this.blockSize = blockSize;
         this.leftMousePressed = false;
+
+        this.currentParticle = "sand";
     }
 
     loop() {
@@ -36,6 +39,20 @@ export default class Game {
                 this.generateSand(event);
             }
         });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.code === "Space") {
+                console.log(this.currentParticle);
+
+                if (this.currentParticle === "sand") {
+                    console.log("sand -> wood");
+                    this.currentParticle = "wood";
+                } else if (this.currentParticle === "wood") {
+                    console.log("wood -> sand");
+                    this.currentParticle = "sand";
+                }
+            }
+        });
     }
 
     generateSand(event) {
@@ -50,7 +67,7 @@ export default class Game {
                 if (Math.random() < 0.75) {
                     let line = mouseY + j;
                     let column = mouseX + i;
-                    this.matrix.grid[line][column] = new Sand();
+                    this.matrix.grid[line][column] = this.currentParticle === "sand" ? new Sand() : new Wood();
                 }
             }
         }
