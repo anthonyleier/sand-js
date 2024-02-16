@@ -24,7 +24,7 @@ class Matrix {
         let newGrid = this.copy();
         for (let i = 0; i < this.lines; i++) {
             for (let j = 0; j < this.columns; j++) {
-                if (this.grid[i][j] > 0) {
+                if (this.grid[i][j] != 0) {
                     if (i + 1 < this.lines) {
                         let below = this.grid[i + 1][j];
                         let belowLeft = this.grid[i + 1][j - 1];
@@ -91,8 +91,8 @@ class Game {
     }
     generateColor() {
         let hue = 45;
-        let saturation = this.generateRNG(50, 100);
-        let brightness = this.generateRNG(30, 70);
+        let saturation = this.generateRNG(50, 70);
+        let brightness = this.generateRNG(50, 60);
         let hslColor = `hsl(${hue}, ${saturation}%, ${brightness}%)`;
         return hslColor;
     }
@@ -109,7 +109,7 @@ class Game {
                 if (Math.random() < 0.75) {
                     let line = mouseY + j;
                     let column = mouseX + i;
-                    this.matrix.grid[line][column] = 1;
+                    this.matrix.grid[line][column] = this.generateColor();
                 }
             }
         }
@@ -119,8 +119,8 @@ class Game {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         for (let i = 0; i < this.matrix.lines; i++) {
             for (let j = 0; j < this.matrix.columns; j++) {
-                if (this.matrix.grid[i][j] > 0) {
-                    this.context.fillStyle = this.generateColor();
+                if (this.matrix.grid[i][j] != 0) {
+                    this.context.fillStyle = this.matrix.grid[i][j];
                     this.context.fillRect(j * this.blockSize, i * this.blockSize, this.blockSize, this.blockSize);
                 }
             }
