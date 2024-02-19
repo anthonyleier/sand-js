@@ -39,13 +39,13 @@ export default class Matrix {
                         let belowA = this.grid[i + 1][j - direction];
                         let belowB = this.grid[i + 1][j + direction];
 
-                        if (below === null || below.density < current.density) {
+                        if (below === null || (below != null && below.density < current.density)) {
                             newGrid[i][j] = below;
                             newGrid[i + 1][j] = current;
-                        } else if (belowA === null || belowA.density < current.density) {
+                        } else if (belowA === null || (belowA != null && belowA.density < current.density)) {
                             newGrid[i][j] = belowA;
                             newGrid[i + 1][j - 1] = current;
-                        } else if (belowB === null || belowB.density < current.density) {
+                        } else if (belowB === null || (belowB != null && belowB.density < current.density)) {
                             newGrid[i][j] = belowB;
                             newGrid[i + 1][j + 1] = current;
                         }
