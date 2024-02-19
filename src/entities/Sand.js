@@ -3,6 +3,8 @@ import RNG from "./RNG.js";
 export default class Sand {
     constructor() {
         this.color = this.generateColor();
+        this.fixed = false;
+        this.density = 1602;
     }
 
     generateRNG(min, max) {

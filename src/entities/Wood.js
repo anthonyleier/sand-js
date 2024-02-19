@@ -3,6 +3,8 @@ import RNG from "./RNG.js";
 export default class Wood {
     constructor() {
         this.color = this.generateColor();
+        this.fixed = true;
+        this.density = 600;
     }
 
     generateRNG(min, max) {
