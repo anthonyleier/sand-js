@@ -42,22 +42,26 @@ export default class Game {
         });
 
         document.addEventListener("keydown", (event) => {
-            if (event.code === "Space") {
-                console.log(this.currentParticle);
-
-                if (this.currentParticle === "sand") {
-                    console.log("sand -> wood");
-                    this.currentParticle = "water";
-                } else if (this.currentParticle === "wood") {
-                    console.log("wood -> sand");
-                    this.currentParticle = "sand";
-                }
-            }
+            this.selectParticle(event.key);
         });
     }
 
+    selectParticle(key) {
+        switch (key) {
+            case "1":
+                this.currentParticle = "sand";
+                break;
+            case "2":
+                this.currentParticle = "wood";
+                break;
+            case "3":
+                this.currentParticle = "water";
+                break;
+        }
+        console.log(`${this.currentParticle} selecionado!`);
+    }
+
     createParticle(type) {
-        console.log(`Criando ${type}`);
         switch (type) {
             case "sand":
                 return new Sand();
