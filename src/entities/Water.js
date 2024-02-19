@@ -5,14 +5,10 @@ export default class Sand {
         this.color = this.generateColor();
     }
 
-    generateRNG(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-
     generateColor() {
-        let hue = 45;
-        let saturation = RNG.generateNumber(50, 70);
-        let brightness = RNG.generateNumber(50, 60);
+        let hue = 218;
+        let saturation = RNG.generateNumber(90, 100);
+        let brightness = RNG.generateNumber(40, 50);
         let hslColor = `hsl(${hue}, ${saturation}%, ${brightness}%)`;
         return hslColor;
     }

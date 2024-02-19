@@ -1,5 +1,6 @@
 import Sand from "./Sand.js";
 import Wood from "./Wood.js";
+import Water from "./Water.js";
 
 export default class Game {
     constructor(width, height, matrix, blockSize, frame) {
@@ -46,13 +47,25 @@ export default class Game {
 
                 if (this.currentParticle === "sand") {
                     console.log("sand -> wood");
-                    this.currentParticle = "wood";
+                    this.currentParticle = "water";
                 } else if (this.currentParticle === "wood") {
                     console.log("wood -> sand");
                     this.currentParticle = "sand";
                 }
             }
         });
+    }
+
+    createParticle(type) {
+        console.log(`Criando ${type}`);
+        switch (type) {
+            case "sand":
+                return new Sand();
+            case "wood":
+                return new Wood();
+            case "water":
+                return new Water();
+        }
     }
 
     generateSand(event) {
@@ -67,7 +80,7 @@ export default class Game {
                 if (Math.random() < 0.75) {
                     let line = mouseY + j;
                     let column = mouseX + i;
-                    this.matrix.grid[line][column] = this.currentParticle === "sand" ? new Sand() : new Wood();
+                    this.matrix.grid[line][column] = this.createParticle(this.currentParticle);
                 }
             }
         }

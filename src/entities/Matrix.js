@@ -1,4 +1,5 @@
 import Sand from "./Sand.js";
+import Water from "./Water.js";
 
 export default class Matrix {
     constructor(lines, columns) {
@@ -26,7 +27,7 @@ export default class Matrix {
         let newGrid = this.copy();
         for (let i = 0; i < this.lines; i++) {
             for (let j = 0; j < this.columns; j++) {
-                if (this.grid[i][j] instanceof Sand) {
+                if (this.grid[i][j] instanceof Sand || this.grid[i][j] instanceof Water) {
                     if (i + 1 < this.lines) {
                         let direction = 1;
                         if (Math.random() < 0.5) {
