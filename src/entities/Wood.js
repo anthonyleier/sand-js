@@ -7,10 +7,6 @@ export default class Wood {
         this.density = 600;
     }
 
-    generateRNG(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-
     generateColor() {
         let hue = 0;
         let saturation = RNG.generateNumber(20, 30);
