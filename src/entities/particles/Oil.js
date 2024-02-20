@@ -1,10 +1,16 @@
-import RNG from "./RNG.js";
+import RNG from "../RNG.js";
 
 export default class Oil {
     constructor() {
         this.color = this.generateColor();
         this.fixed = false;
         this.density = 700;
+        this.flammable = true;
+    }
+
+    setCoordinates(i, j) {
+        this.i = i;
+        this.j = j;
     }
 
     generateColor() {

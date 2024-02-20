@@ -1,10 +1,16 @@
-import RNG from "./RNG.js";
+import RNG from "../RNG.js";
 
 export default class Water {
     constructor() {
         this.color = this.generateColor();
         this.fixed = false;
         this.density = 997;
+        this.flammable = false;
+    }
+
+    setCoordinates(i, j) {
+        this.i = i;
+        this.j = j;
     }
 
     generateColor() {

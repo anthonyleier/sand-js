@@ -1,7 +1,8 @@
-import Sand from "./Sand.js";
-import Wood from "./Wood.js";
-import Water from "./Water.js";
-import Oil from "./Oil.js";
+import Sand from "./particles/Sand.js";
+import Wood from "./particles/Wood.js";
+import Water from "./particles/Water.js";
+import Oil from "./particles/Oil.js";
+import Fire from "./particles/Fire.js";
 
 export default class Game {
     constructor(width, height, matrix, blockSize) {
@@ -58,6 +59,9 @@ export default class Game {
             case "4":
                 this.currentParticle = "oil";
                 break;
+            case "5":
+                this.currentParticle = "fire";
+                break;
         }
         console.log(`${this.currentParticle} selected!`);
     }
@@ -72,6 +76,8 @@ export default class Game {
                 return new Water();
             case "oil":
                 return new Oil();
+            case "fire":
+                return new Fire();
         }
     }
 
@@ -89,6 +95,7 @@ export default class Game {
                         let line = mouseY + j;
                         let column = mouseX + i;
                         this.matrix.grid[line][column] = this.createParticle(this.currentParticle);
+                        this.matrix.grid[line][column].setCoordinates(line, column);
                     }
                 }
             }

@@ -1,3 +1,5 @@
+import Fire from "./particles/Fire.js";
+
 export default class Matrix {
     constructor(lines, columns) {
         this.lines = lines;
@@ -39,12 +41,61 @@ export default class Matrix {
     }
 
     update() {
-        let newGrid = this.copy();
+        this.newGrid = this.copy();
 
         for (let i = 0; i < this.lines; i++) {
             for (let j = 0; j < this.columns; j++) {
                 if (this.verifyBounds(i, j)) {
                     const current = this.grid[i][j];
+
+                    if (current instanceof Fire) {
+                        current.timeLeft -= 1;
+                        console.log(current.timeLeft);
+                        if (current.timeLeft <= 0) {
+                            this.newGrid[i][j] = null;
+                        }
+
+                        const neighborNW = this.grid[i - 1][j - 1];
+                        const neighborN = this.grid[i - 1][j];
+                        const neighborNE = this.grid[i - 1][j + 1];
+                        const neighborE = this.grid[i][j + 1];
+                        const neighborSE = this.grid[i + 1][j + 1];
+                        const neighborS = this.grid[i + 1][j];
+                        const neighborSW = this.grid[i + 1][j - 1];
+                        const neighborW = this.grid[i][j - 1];
+
+                        if (neighborNW !== null && neighborNW.flammable) {
+                            this.newGrid[i - 1][j - 1] = new Fire();
+                        }
+
+                        if (neighborN !== null && neighborN.flammable) {
+                            this.newGrid[i - 1][j] = new Fire();
+                        }
+
+                        if (neighborNE !== null && neighborNE.flammable) {
+                            this.newGrid[i - 1][j + 1] = new Fire();
+                        }
+
+                        if (neighborE !== null && neighborE.flammable) {
+                            this.newGrid[i][j + 1] = new Fire();
+                        }
+
+                        if (neighborSE !== null && neighborSE.flammable) {
+                            this.newGrid[i + 1][j + 1] = new Fire();
+                        }
+
+                        if (neighborS !== null && neighborS.flammable) {
+                            this.newGrid[i + 1][j] = new Fire();
+                        }
+
+                        if (neighborSW !== null && neighborSW.flammable) {
+                            this.newGrid[i + 1][j - 1] = new Fire();
+                        }
+
+                        if (neighborW !== null && neighborW.flammable) {
+                            this.newGrid[i][j - 1] = new Fire();
+                        }
+                    }
 
                     if (this.verifyParticleWithGravity(current)) {
                         const direction = Math.random() < 0.5 ? -1 : 1;
@@ -54,19 +105,19 @@ export default class Matrix {
                         const belowB = this.grid[i + 1][j + direction];
 
                         if (this.checkNeedToInvert(current, below)) {
-                            newGrid[i][j] = below;
-                            newGrid[i + 1][j] = current;
+                            this.newGrid[i][j] = below;
+                            this.newGrid[i + 1][j] = current;
                         } else if (this.checkNeedToInvert(current, belowA)) {
-                            newGrid[i][j] = belowA;
-                            newGrid[i + 1][j - direction] = current;
+                            this.newGrid[i][j] = belowA;
+                            this.newGrid[i + 1][j - direction] = current;
                         } else if (this.checkNeedToInvert(current, belowB)) {
-                            newGrid[i][j] = belowB;
-                            newGrid[i + 1][j + direction] = current;
+                            this.newGrid[i][j] = belowB;
+                            this.newGrid[i + 1][j + direction] = current;
                         }
                     }
                 }
             }
         }
-        this.grid = newGrid;
+        this.grid = this.newGrid;
     }
 }
