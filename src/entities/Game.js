@@ -18,6 +18,7 @@ export default class Game {
     }
 
     loop() {
+        this.generateSand();
         this.matrix.update();
         this.drawMatrix();
         requestAnimationFrame(() => this.loop());
@@ -26,7 +27,7 @@ export default class Game {
     addListeners() {
         this.canvas.addEventListener("mousedown", (event) => {
             this.leftMousePressed = true;
-            this.generateSand(event);
+            this.lastEvent = event;
         });
 
         this.canvas.addEventListener("mouseup", () => {
@@ -34,9 +35,7 @@ export default class Game {
         });
 
         this.canvas.addEventListener("mousemove", (event) => {
-            if (this.leftMousePressed) {
-                this.generateSand(event);
-            }
+            this.lastEvent = event;
         });
 
         document.addEventListener("keydown", (event) => {
@@ -56,7 +55,7 @@ export default class Game {
                 this.currentParticle = "water";
                 break;
         }
-        console.log(`${this.currentParticle} selecionado!`);
+        console.log(`${this.currentParticle} selected!`);
     }
 
     createParticle(type) {
@@ -70,19 +69,21 @@ export default class Game {
         }
     }
 
-    generateSand(event) {
-        let mouseX = Math.floor((event.clientX - this.canvas.getBoundingClientRect().left) / this.blockSize);
-        let mouseY = Math.floor((event.clientY - this.canvas.getBoundingClientRect().top) / this.blockSize);
+    generateSand() {
+        if (this.leftMousePressed) {
+            let mouseX = Math.floor((this.lastEvent.clientX - this.canvas.getBoundingClientRect().left) / this.blockSize);
+            let mouseY = Math.floor((this.lastEvent.clientY - this.canvas.getBoundingClientRect().top) / this.blockSize);
 
-        let brush = 3;
-        let limit = Math.floor(brush / 2);
+            let brush = 3;
+            let limit = Math.floor(brush / 2);
 
-        for (let i = -limit; i <= limit; i++) {
-            for (let j = -limit; j <= limit; j++) {
-                if (Math.random() < 0.75) {
-                    let line = mouseY + j;
-                    let column = mouseX + i;
-                    this.matrix.grid[line][column] = this.createParticle(this.currentParticle);
+            for (let i = -limit; i <= limit; i++) {
+                for (let j = -limit; j <= limit; j++) {
+                    if (Math.random() < 0.75) {
+                        let line = mouseY + j;
+                        let column = mouseX + i;
+                        this.matrix.grid[line][column] = this.createParticle(this.currentParticle);
+                    }
                 }
             }
         }
