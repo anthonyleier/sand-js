@@ -31,7 +31,7 @@ export default class Matrix {
                     if (i + 1 < this.lines) {
                         let direction = 1;
                         if (Math.random() < 0.5) {
-                            direction *= 1;
+                            direction *= -1;
                         }
 
                         let current = this.grid[i][j];
@@ -44,10 +44,10 @@ export default class Matrix {
                             newGrid[i + 1][j] = current;
                         } else if (belowA === null || (belowA != null && belowA.density < current.density)) {
                             newGrid[i][j] = belowA;
-                            newGrid[i + 1][j - 1] = current;
+                            newGrid[i + 1][j - direction] = current;
                         } else if (belowB === null || (belowB != null && belowB.density < current.density)) {
                             newGrid[i][j] = belowB;
-                            newGrid[i + 1][j + 1] = current;
+                            newGrid[i + 1][j + direction] = current;
                         }
                     }
                 }
