@@ -1,6 +1,7 @@
 import Sand from "./Sand.js";
 import Wood from "./Wood.js";
 import Water from "./Water.js";
+import Oil from "./Oil.js";
 
 export default class Game {
     constructor(width, height, matrix, blockSize) {
@@ -54,6 +55,9 @@ export default class Game {
             case "3":
                 this.currentParticle = "water";
                 break;
+            case "4":
+                this.currentParticle = "oil";
+                break;
         }
         console.log(`${this.currentParticle} selected!`);
     }
@@ -66,6 +70,8 @@ export default class Game {
                 return new Wood();
             case "water":
                 return new Water();
+            case "oil":
+                return new Oil();
         }
     }
 
