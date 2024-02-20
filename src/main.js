@@ -5,13 +5,13 @@ function main() {
     const width = 500;
     const height = 500;
     const blockSize = 5;
-    const frame = 1000 / 60;
 
     const lines = height / blockSize;
     const columns = width / blockSize;
 
     let matrix = new Matrix(lines, columns, blockSize);
-    let game = new Game(width, height, matrix, blockSize, frame);
+    let game = new Game(width, height, matrix, blockSize);
+
     game.addListeners();
     game.loop();
 }

@@ -3,15 +3,13 @@ import Wood from "./Wood.js";
 import Water from "./Water.js";
 
 export default class Game {
-    constructor(width, height, matrix, blockSize, frame) {
+    constructor(width, height, matrix, blockSize) {
         this.canvas = document.getElementById("GameCanvas");
         this.context = this.canvas.getContext("2d");
 
         this.canvas.width = width;
         this.canvas.height = height;
-
         this.matrix = matrix;
-        this.frame = frame;
 
         this.blockSize = blockSize;
         this.leftMousePressed = false;

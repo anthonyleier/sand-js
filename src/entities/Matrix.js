@@ -1,6 +1,3 @@
-import Sand from "./Sand.js";
-import Water from "./Water.js";
-
 export default class Matrix {
     constructor(lines, columns) {
         this.lines = lines;

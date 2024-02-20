@@ -1,6 +1,6 @@
 import RNG from "./RNG.js";
 
-export default class Sand {
+export default class Water {
     constructor() {
         this.color = this.generateColor();
         this.fixed = false;
