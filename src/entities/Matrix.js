@@ -32,16 +32,12 @@ export default class Matrix {
         return otherIncorrectDensity && otherCanMove;
     }
 
-    verifyParticleWithGravity(current) {
-        return current !== null && !current.fixed;
-    }
-
     verifyLinesBounds(i) {
         return i - 1 > 0 && i + 1 < this.lines;
     }
 
-    updateLiquids(current, i, j) {
-        if (this.verifyParticleWithGravity(current)) {
+    updateDensity(current, i, j) {
+        if (!current.fixed) {
             const direction = Math.random() < 0.5 ? -1 : 1;
 
             const below = this.grid[i + 1][j];
@@ -74,11 +70,15 @@ export default class Matrix {
         }
     }
 
-    updateTimeLeft(current) {
+    updateTimeLeft(current, i, j) {
         current.timeLeft -= 1;
         if (current.timeLeft <= 0) {
             this.newGrid[i][j] = null;
         }
+    }
+
+    exists(current) {
+        return current !== undefined && current !== null;
     }
 
     update() {
@@ -87,11 +87,12 @@ export default class Matrix {
         for (let i = 0; i < this.lines; i++) {
             for (let j = 0; j < this.columns; j++) {
                 const current = this.grid[i][j];
-                if (current !== undefined && current !== null) {
-                    this.updateTimeLeft(current);
+                if (this.exists(current)) {
+                    this.updateTimeLeft(current, i, j);
+
                     if (this.verifyLinesBounds(i)) {
                         this.updateFire(current, i, j);
-                        this.updateLiquids(current, i, j);
+                        this.updateDensity(current, i, j);
                     }
                 }
             }
