@@ -77,7 +77,7 @@ export default class Game {
             case "oil":
                 return new Oil();
             case "fire":
-                return new Fire();
+                return new Fire(10);
         }
     }
 

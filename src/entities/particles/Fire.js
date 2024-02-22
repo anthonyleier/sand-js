@@ -1,11 +1,11 @@
 import RNG from "../RNG.js";
 
 export default class Fire {
-    constructor() {
+    constructor(timeLeft = 60) {
         this.color = this.generateColor();
         this.fixed = true;
         this.density = 0;
-        this.timeLeft = 30;
+        this.timeLeft = timeLeft;
     }
 
     setCoordinates(i, j) {
