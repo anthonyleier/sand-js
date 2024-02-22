@@ -36,8 +36,8 @@ export default class Matrix {
         return current !== null && !current.fixed;
     }
 
-    verifyBounds(i) {
-        return i + 1 < this.lines;
+    verifyLinesBounds(i) {
+        return i - 1 > 0 && i + 1 < this.lines;
     }
 
     updateLiquids(current, i, j) {
@@ -63,20 +63,21 @@ export default class Matrix {
 
     updateFire(current, i, j) {
         if (current instanceof Fire) {
-            current.timeLeft -= 1;
-
-            if (current.timeLeft <= 0) {
-                this.newGrid[i][j] = null;
-            }
-
             for (let x = -1; x <= 1; x++) {
                 for (let y = -1; y <= 1; y++) {
                     const neighbor = this.grid[i + x][j + y];
-                    if (neighbor !== null && neighbor.flammable) {
+                    if (neighbor !== undefined && neighbor !== null && neighbor.flammable) {
                         this.newGrid[i + x][j + y] = new Fire();
                     }
                 }
             }
+        }
+    }
+
+    updateTimeLeft(current) {
+        current.timeLeft -= 1;
+        if (current.timeLeft <= 0) {
+            this.newGrid[i][j] = null;
         }
     }
 
@@ -85,10 +86,13 @@ export default class Matrix {
 
         for (let i = 0; i < this.lines; i++) {
             for (let j = 0; j < this.columns; j++) {
-                if (this.verifyBounds(i, j)) {
-                    const current = this.grid[i][j];
-                    this.updateLiquids(current, i, j);
-                    this.updateFire(current, i, j);
+                const current = this.grid[i][j];
+                if (current !== undefined && current !== null) {
+                    this.updateTimeLeft(current);
+                    if (this.verifyLinesBounds(i)) {
+                        this.updateFire(current, i, j);
+                        this.updateLiquids(current, i, j);
+                    }
                 }
             }
         }
