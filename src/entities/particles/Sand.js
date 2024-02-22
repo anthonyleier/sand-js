@@ -8,11 +8,6 @@ export default class Sand {
         this.flammable = false;
     }
 
-    setCoordinates(i, j) {
-        this.i = i;
-        this.j = j;
-    }
-
     generateColor() {
         let hue = 45;
         let saturation = RNG.generateNumber(50, 70);

@@ -8,11 +8,6 @@ export default class Fire {
         this.timeLeft = timeLeft;
     }
 
-    setCoordinates(i, j) {
-        this.i = i;
-        this.j = j;
-    }
-
     updateColor() {
         this.color = this.generateColor();
     }

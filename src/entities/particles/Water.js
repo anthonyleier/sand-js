@@ -8,11 +8,6 @@ export default class Water {
         this.flammable = false;
     }
 
-    setCoordinates(i, j) {
-        this.i = i;
-        this.j = j;
-    }
-
     generateColor() {
         let hue = 218;
         let saturation = RNG.generateNumber(90, 100);

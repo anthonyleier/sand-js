@@ -20,7 +20,7 @@ export default class Game {
     }
 
     loop() {
-        this.generateSand();
+        this.brushParticles();
         this.matrix.update();
         this.drawMatrix();
         requestAnimationFrame(() => this.loop());
@@ -81,7 +81,7 @@ export default class Game {
         }
     }
 
-    generateSand() {
+    brushParticles() {
         if (this.leftMousePressed) {
             let mouseX = Math.floor((this.lastEvent.clientX - this.canvas.getBoundingClientRect().left) / this.blockSize);
             let mouseY = Math.floor((this.lastEvent.clientY - this.canvas.getBoundingClientRect().top) / this.blockSize);
@@ -95,7 +95,6 @@ export default class Game {
                         let line = mouseY + j;
                         let column = mouseX + i;
                         this.matrix.grid[line][column] = this.createParticle(this.currentParticle);
-                        this.matrix.grid[line][column].setCoordinates(line, column);
                     }
                 }
             }

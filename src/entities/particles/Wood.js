@@ -8,11 +8,6 @@ export default class Wood {
         this.flammable = false;
     }
 
-    setCoordinates(i, j) {
-        this.i = i;
-        this.j = j;
-    }
-
     generateColor() {
         let hue = 0;
         let saturation = RNG.generateNumber(20, 30);

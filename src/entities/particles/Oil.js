@@ -8,11 +8,6 @@ export default class Oil {
         this.flammable = true;
     }
 
-    setCoordinates(i, j) {
-        this.i = i;
-        this.j = j;
-    }
-
     generateColor() {
         let hue = 0;
         let saturation = 100;
