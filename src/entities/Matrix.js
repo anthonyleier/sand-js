@@ -69,45 +69,13 @@ export default class Matrix {
                 this.newGrid[i][j] = null;
             }
 
-            const neighborNW = this.grid[i - 1][j - 1];
-            const neighborN = this.grid[i - 1][j];
-            const neighborNE = this.grid[i - 1][j + 1];
-            const neighborE = this.grid[i][j + 1];
-            const neighborSE = this.grid[i + 1][j + 1];
-            const neighborS = this.grid[i + 1][j];
-            const neighborSW = this.grid[i + 1][j - 1];
-            const neighborW = this.grid[i][j - 1];
-
-            if (neighborNW !== null && neighborNW.flammable) {
-                this.newGrid[i - 1][j - 1] = new Fire();
-            }
-
-            if (neighborN !== null && neighborN.flammable) {
-                this.newGrid[i - 1][j] = new Fire();
-            }
-
-            if (neighborNE !== null && neighborNE.flammable) {
-                this.newGrid[i - 1][j + 1] = new Fire();
-            }
-
-            if (neighborE !== null && neighborE.flammable) {
-                this.newGrid[i][j + 1] = new Fire();
-            }
-
-            if (neighborSE !== null && neighborSE.flammable) {
-                this.newGrid[i + 1][j + 1] = new Fire();
-            }
-
-            if (neighborS !== null && neighborS.flammable) {
-                this.newGrid[i + 1][j] = new Fire();
-            }
-
-            if (neighborSW !== null && neighborSW.flammable) {
-                this.newGrid[i + 1][j - 1] = new Fire();
-            }
-
-            if (neighborW !== null && neighborW.flammable) {
-                this.newGrid[i][j - 1] = new Fire();
+            for (let x = -1; x <= 1; x++) {
+                for (let y = -1; y <= 1; y++) {
+                    const neighbor = this.grid[i + x][j + y];
+                    if (neighbor !== null && neighbor.flammable) {
+                        this.newGrid[i + x][j + y] = new Fire();
+                    }
+                }
             }
         }
     }
