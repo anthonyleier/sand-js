@@ -1,7 +1,7 @@
 import Particle from "./Particle.js";
 
 export default class Fire extends Particle {
-    constructor(timeLeft = 60) {
+    constructor(timeLeft = 120) {
         super();
         this.color = this.generateColor();
         this.fixed = true;
