@@ -33,7 +33,7 @@ export default class Matrix {
     }
 
     verifyLinesBounds(i) {
-        return i - 1 > 0 && i + 1 < this.lines;
+        return i >= 0 && i + 1 < this.lines;
     }
 
     updateDensity(current, i, j) {
