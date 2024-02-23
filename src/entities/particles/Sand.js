@@ -6,6 +6,7 @@ export default class Sand extends Particle {
         this.color = this.generateColor();
         this.fixed = false;
         this.density = 1602;
+        this.timeLeft = 'infinity';
         this.flammable = false;
         this.meltable = true;
     }

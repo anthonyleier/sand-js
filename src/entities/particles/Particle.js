@@ -4,6 +4,7 @@ export default class Particle {
         this.fixed = true;
         this.density = 0;
         this.timeLeft = 'infinity';
+        this.flammable = false;
         this.meltable = false;
     }
 

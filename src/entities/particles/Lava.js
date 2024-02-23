@@ -6,6 +6,7 @@ export default class Lava extends Particle {
         this.color = this.generateColor();
         this.fixed = false;
         this.density = 3100;
+        this.timeLeft = 'infinity';
         this.flammable = false;
         this.meltable = false;
     }

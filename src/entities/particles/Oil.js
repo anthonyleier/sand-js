@@ -6,6 +6,7 @@ export default class Oil extends Particle {
         this.color = this.generateColor();
         this.fixed = false;
         this.density = 700;
+        this.timeLeft = 'infinity';
         this.flammable = true;
         this.meltable = false;
     }

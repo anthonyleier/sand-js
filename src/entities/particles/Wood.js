@@ -6,8 +6,9 @@ export default class Wood extends Particle {
         this.color = this.generateColor();
         this.fixed = true;
         this.density = 600;
+        this.timeLeft = "infinity";
         this.flammable = true;
-        this.meltable = true;
+        this.meltable = false;
     }
 
     generateColor() {

@@ -7,6 +7,7 @@ export default class Fire extends Particle {
         this.fixed = true;
         this.density = 0;
         this.timeLeft = timeLeft;
+        this.flammable = false;
         this.meltable = false;
     }
 
