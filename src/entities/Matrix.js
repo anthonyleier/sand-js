@@ -1,4 +1,5 @@
 import Fire from "./particles/Fire.js";
+import Lava from "./particles/Lava.js";
 
 export default class Matrix {
     constructor(lines, columns) {
@@ -57,6 +58,25 @@ export default class Matrix {
         }
     }
 
+    updateLava(current, i, j) {
+        const direction = Math.random() < 0.5 ? -1 : 1;
+
+        const below = this.grid[i + 1][j];
+        const belowA = this.grid[i + 1][j - direction];
+        const belowB = this.grid[i + 1][j + direction];
+
+        if (this.checkNeedToInvert(current, below)) {
+            this.newGrid[i][j] = null;
+            this.newGrid[i + 1][j] = current;
+        } else if (this.checkNeedToInvert(current, belowA)) {
+            this.newGrid[i][j] = null;
+            this.newGrid[i + 1][j - direction] = current;
+        } else if (this.checkNeedToInvert(current, belowB)) {
+            this.newGrid[i][j] = null;
+            this.newGrid[i + 1][j + direction] = current;
+        }
+    }
+
     updateFire(current, i, j) {
         if (current instanceof Fire) {
             current.updateColor();
@@ -73,13 +93,13 @@ export default class Matrix {
 
     updateTimeLeft(current, i, j) {
         current.timeLeft -= 1;
-        if (current.timeLeft <= 0) {
+        if (current.timeLeft !== 'infinity' && current.timeLeft <= 0) {
             this.newGrid[i][j] = null;
         }
     }
 
-    exists(current) {
-        return current !== undefined && current !== null;
+    exists(particle) {
+        return particle !== undefined && particle !== null;
     }
 
     update() {
@@ -93,7 +113,9 @@ export default class Matrix {
 
                     if (this.verifyLinesBounds(i)) {
                         this.updateFire(current, i, j);
-                        this.updateDensity(current, i, j);
+
+                        if (current instanceof Lava) this.updateLava(current, i, j);
+                        else this.updateDensity(current, i, j);
                     }
                 }
             }

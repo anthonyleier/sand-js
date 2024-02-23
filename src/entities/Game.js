@@ -4,6 +4,7 @@ import Water from "./particles/Water.js";
 import Oil from "./particles/Oil.js";
 import Fire from "./particles/Fire.js";
 import Stone from "./particles/Stone.js";
+import Lava from "./particles/Lava.js";
 
 export default class Game {
     constructor(width, height, matrix, blockSize) {
@@ -66,6 +67,9 @@ export default class Game {
             case "6":
                 this.currentParticle = "stone";
                 break;
+            case "7":
+                this.currentParticle = "lava";
+                break;
         }
         console.log(`${this.currentParticle} selected!`);
     }
@@ -84,6 +88,8 @@ export default class Game {
                 return new Fire(10);
             case "stone":
                 return new Stone();
+            case "lava":
+                return new Lava();
         }
     }
 
