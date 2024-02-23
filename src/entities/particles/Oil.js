@@ -1,17 +1,19 @@
-import RNG from "../RNG.js";
+import Particle from "./Particle.js";
 
-export default class Oil {
+export default class Oil extends Particle {
     constructor() {
+        super();
         this.color = this.generateColor();
         this.fixed = false;
         this.density = 700;
         this.flammable = true;
+        this.meltable = true;
     }
 
     generateColor() {
         let hue = 0;
         let saturation = 100;
-        let brightness = RNG.generateNumber(5, 15);
+        let brightness = this.generateNumber(5, 15);
         let hslColor = `hsl(${hue}, ${saturation}%, ${brightness}%)`;
         return hslColor;
     }

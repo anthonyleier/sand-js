@@ -1,11 +1,13 @@
-import RNG from "../RNG.js";
+import Particle from "./Particle.js";
 
-export default class Fire {
+export default class Fire extends Particle {
     constructor(timeLeft = 60) {
+        super();
         this.color = this.generateColor();
         this.fixed = true;
         this.density = 0;
         this.timeLeft = timeLeft;
+        this.meltable = false;
     }
 
     updateColor() {
@@ -13,7 +15,7 @@ export default class Fire {
     }
 
     generateColor() {
-        let hue = RNG.generateNumber(0, 50);
+        let hue = this.generateNumber(0, 50);
         let saturation = 100;
         let brightness = 50;
         let hslColor = `hsl(${hue}, ${saturation}%, ${brightness}%)`;
