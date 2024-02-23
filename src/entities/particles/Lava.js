@@ -1,11 +1,11 @@
 import Particle from "./Particle.js";
 
-export default class Water extends Particle {
+export default class Lava extends Particle {
     constructor() {
         super();
         this.color = this.generateColor();
         this.fixed = false;
-        this.density = 997;
+        this.density = 3100;
         this.flammable = false;
         this.meltable = false;
     }
