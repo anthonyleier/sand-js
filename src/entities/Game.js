@@ -3,6 +3,7 @@ import Wood from "./particles/Wood.js";
 import Water from "./particles/Water.js";
 import Oil from "./particles/Oil.js";
 import Fire from "./particles/Fire.js";
+import Stone from "./particles/Stone.js";
 
 export default class Game {
     constructor(width, height, matrix, blockSize) {
@@ -62,6 +63,9 @@ export default class Game {
             case "5":
                 this.currentParticle = "fire";
                 break;
+            case "6":
+                this.currentParticle = "stone";
+                break;
         }
         console.log(`${this.currentParticle} selected!`);
     }
@@ -78,6 +82,8 @@ export default class Game {
                 return new Oil();
             case "fire":
                 return new Fire(10);
+            case "stone":
+                return new Stone();
         }
     }
 
@@ -97,7 +103,7 @@ export default class Game {
 
             for (let i = -limit; i <= limit; i++) {
                 for (let j = -limit; j <= limit; j++) {
-                    const chance = this.currentParticle !== 'wood' ? Math.random() : 0;
+                    const chance = this.currentParticle !== "wood" ? Math.random() : 0;
                     if (chance < 0.75) {
                         let line = mouseY + j;
                         let column = mouseX + i;
