@@ -81,6 +81,12 @@ export default class Game {
         }
     }
 
+    verifyCoordinates(line, column) {
+        const lineOk = 0 <= line && line < this.matrix.lines;
+        const columnOk = 0 <= column && column < this.matrix.columns;
+        return lineOk && columnOk;
+    }
+
     brushParticles() {
         if (this.leftMousePressed) {
             let mouseX = Math.floor((this.lastEvent.clientX - this.canvas.getBoundingClientRect().left) / this.blockSize);
@@ -94,7 +100,7 @@ export default class Game {
                     if (Math.random() < 0.75) {
                         let line = mouseY + j;
                         let column = mouseX + i;
-                        if (line < this.matrix.lines && column < this.matrix.columns) this.matrix.grid[line][column] = this.createParticle(this.currentParticle);
+                        if (this.verifyCoordinates(line, column)) this.matrix.grid[line][column] = this.createParticle(this.currentParticle);
                     }
                 }
             }
