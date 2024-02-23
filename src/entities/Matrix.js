@@ -1,5 +1,7 @@
 import Fire from "./particles/Fire.js";
 import Lava from "./particles/Lava.js";
+import Water from "./particles/Water.js";
+import Stone from "./particles/Stone.js";
 
 export default class Matrix {
     constructor(lines, columns) {
@@ -77,8 +79,10 @@ export default class Matrix {
             for (let x = -1; x <= 1; x++) {
                 for (let y = -1; y <= 1; y++) {
                     const neighbor = this.grid[i + x][j + y];
-                    if (neighbor !== undefined && neighbor !== null && neighbor.meltable) {
-                        this.newGrid[i + x][j + y] = null;
+                    if (neighbor !== undefined && neighbor !== null) {
+                        if (neighbor.meltable) this.newGrid[i + x][j + y] = null;
+                        if (!neighbor.meltable && neighbor.flammable) this.newGrid[i + x][j + y] = new Fire();
+                        if (neighbor instanceof Water) this.newGrid[i + x][j + y] = new Stone();
                     }
                 }
             }
