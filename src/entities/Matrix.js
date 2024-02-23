@@ -59,6 +59,7 @@ export default class Matrix {
 
     updateFire(current, i, j) {
         if (current instanceof Fire) {
+            current.updateColor();
             for (let x = -1; x <= 1; x++) {
                 for (let y = -1; y <= 1; y++) {
                     const neighbor = this.grid[i + x][j + y];
