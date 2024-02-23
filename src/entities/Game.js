@@ -94,7 +94,7 @@ export default class Game {
                     if (Math.random() < 0.75) {
                         let line = mouseY + j;
                         let column = mouseX + i;
-                        this.matrix.grid[line][column] = this.createParticle(this.currentParticle);
+                        if (line < this.matrix.lines && column < this.matrix.columns) this.matrix.grid[line][column] = this.createParticle(this.currentParticle);
                     }
                 }
             }
