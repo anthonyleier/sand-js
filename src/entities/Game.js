@@ -97,7 +97,8 @@ export default class Game {
 
             for (let i = -limit; i <= limit; i++) {
                 for (let j = -limit; j <= limit; j++) {
-                    if (Math.random() < 0.75) {
+                    const chance = this.currentParticle !== 'wood' ? Math.random() : 0;
+                    if (chance < 0.75) {
                         let line = mouseY + j;
                         let column = mouseX + i;
                         if (this.verifyCoordinates(line, column)) this.matrix.grid[line][column] = this.createParticle(this.currentParticle);
