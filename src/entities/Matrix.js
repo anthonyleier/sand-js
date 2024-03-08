@@ -60,6 +60,37 @@ export default class Matrix {
         }
     }
 
+    updateWater(current, i, j) {
+        if (!current.fixed) {
+            const direction = Math.random() < 0.5 ? -1 : 1;
+
+            const below = this.grid[i + 1][j];
+            const belowA = this.grid[i + 1][j - direction];
+            const belowB = this.grid[i + 1][j + direction];
+            const left = this.grid[i][j - 1];
+            const right = this.grid[i][j + 1];
+
+            if (this.checkNeedToInvert(current, below)) {
+                this.newGrid[i][j] = below;
+                this.newGrid[i + 1][j] = current;
+            } else if (this.checkNeedToInvert(current, belowA)) {
+                this.newGrid[i][j] = belowA;
+                this.newGrid[i + 1][j - direction] = current;
+            } else if (this.checkNeedToInvert(current, belowB)) {
+                this.newGrid[i][j] = belowB;
+                this.newGrid[i + 1][j + direction] = current;
+            } else if (left === null && current.direction == "left") {
+                this.newGrid[i][j] = left;
+                this.newGrid[i][j - 1] = current;
+            } else if (right === null && current.direction == "right") {
+                this.newGrid[i][j] = right;
+                this.newGrid[i][j + 1] = current;
+            } else if (left !== null) {
+                current.direction = "right";
+            }
+        }
+    }
+
     updateFire(current, i, j) {
         if (current instanceof Fire) {
             current.updateColor();
@@ -112,7 +143,9 @@ export default class Matrix {
                     if (this.verifyLinesBounds(i)) {
                         this.updateFire(current, i, j);
                         this.updateLava(current, i, j);
-                        this.updateDensity(current, i, j);
+
+                        if (!(current instanceof Water)) this.updateDensity(current, i, j);
+                        else this.updateWater(current, i, j);
                     }
                 }
             }

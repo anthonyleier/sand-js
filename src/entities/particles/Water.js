@@ -6,9 +6,10 @@ export default class Water extends Particle {
         this.color = this.generateColor();
         this.fixed = false;
         this.density = 997;
-        this.timeLeft = 'infinity';
+        this.timeLeft = "infinity";
         this.flammable = false;
         this.meltable = false;
+        this.direction = Math.random() < 0.5 ? "left" : "right";
     }
 
     generateColor() {
