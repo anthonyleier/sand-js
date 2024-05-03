@@ -104,7 +104,7 @@ export default class Game {
             let mouseX = Math.floor((this.lastEvent.clientX - this.canvas.getBoundingClientRect().left) / this.blockSize);
             let mouseY = Math.floor((this.lastEvent.clientY - this.canvas.getBoundingClientRect().top) / this.blockSize);
 
-            let brush = 5;
+            let brush = 3;
             let limit = Math.floor(brush / 2);
 
             for (let i = -limit; i <= limit; i++) {
