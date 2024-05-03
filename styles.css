@@ -37,3 +37,7 @@ td {
     align-items: center;
     margin-left: 50px;
 }
+
+.highlight {
+    background-color: yellow2;
+}

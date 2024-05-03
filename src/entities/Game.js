@@ -47,28 +47,56 @@ export default class Game {
         });
     }
 
+    removeHighlights() {
+        const table = document.getElementById("infoTable");
+        const lines = table.getElementsByTagName("tr");
+
+        for (var i = 0; i < lines.length; i++) {
+            lines[i].classList.remove("highlight");
+        }
+    }
+
+    addHightlight(id) {
+        const line = document.getElementById(id);
+        line.classList.add("highlight");
+    }
+
     selectParticle(key) {
         switch (key) {
             case "1":
                 this.currentParticle = "sand";
+                this.removeHighlights();
+                this.addHightlight("sand");
                 break;
             case "2":
                 this.currentParticle = "wood";
+                this.removeHighlights();
+                this.addHightlight("wood");
                 break;
             case "3":
                 this.currentParticle = "water";
+                this.removeHighlights();
+                this.addHightlight("water");
                 break;
             case "4":
                 this.currentParticle = "oil";
+                this.removeHighlights();
+                this.addHightlight("oil");
                 break;
             case "5":
                 this.currentParticle = "fire";
+                this.removeHighlights();
+                this.addHightlight("fire");
                 break;
             case "6":
                 this.currentParticle = "stone";
+                this.removeHighlights();
+                this.addHightlight("stone");
                 break;
             case "7":
                 this.currentParticle = "lava";
+                this.removeHighlights();
+                this.addHightlight("lava");
                 break;
         }
         console.log(`${this.currentParticle} selected!`);
