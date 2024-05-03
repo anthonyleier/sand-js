@@ -3,7 +3,7 @@ export default class Particle {
         this.color = this.generateColor();
         this.fixed = true;
         this.density = 0;
-        this.timeLeft = 'infinity';
+        this.timeLeft = "infinity";
         this.flammable = false;
         this.meltable = false;
     }

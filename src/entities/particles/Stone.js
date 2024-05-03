@@ -6,7 +6,7 @@ export default class Stone extends Particle {
         this.color = this.generateColor();
         this.fixed = true;
         this.density = 2800;
-        this.timeLeft = 'infinity';
+        this.timeLeft = "infinity";
         this.flammable = false;
         this.meltable = false;
     }
